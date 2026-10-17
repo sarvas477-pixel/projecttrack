@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #eef1f8; --ink: #14172b; --muted: #5d6482; --line: rgba(20,23,43,.10);
+  --glass: rgba(255,255,255,.66); --glass-strong: rgba(255,255,255,.86);
+  --accent: #4f46e5; --accent-ink: #fff; --teal: #0d9488; --amber: #b45309; --rose: #be123c;
+  --shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 1px 2px rgba(20,23,43,.06), 0 12px 32px -8px rgba(40,44,100,.18), 0 32px 64px -24px rgba(40,44,100,.16);
+  --blob-a: #c7d2fe; --blob-b: #99f6e4; --blob-c: #fbcfe8;
+}
+[data-theme='dark'] {
+  --bg: #0b0d1a; --ink: #eceffc; --muted: #9aa1c4; --line: rgba(255,255,255,.10);
+  --glass: rgba(30,34,66,.55); --glass-strong: rgba(34,38,74,.88);
+  --accent: #818cf8; --accent-ink: #0b0d1a; --teal: #2dd4bf; --amber: #fbbf24; --rose: #fb7185;
+  --shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 12px 32px -8px rgba(0,0,0,.5), 0 32px 64px -24px rgba(0,0,0,.5);
+  --blob-a: #312e81; --blob-b: #134e4a; --blob-c: #4c1d3f;
+}
+html, body, #root { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: Manrope, ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+
+.space-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--bg); }
+.space-bg i { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .75; }
+.space-bg i:nth-child(1) { width: 46vw; height: 46vw; left: -10vw; top: -14vw; background: var(--blob-a); }
+.space-bg i:nth-child(2) { width: 38vw; height: 38vw; right: -8vw; top: 18vh; background: var(--blob-b); }
+.space-bg i:nth-child(3) { width: 34vw; height: 34vw; left: 30vw; bottom: -16vw; background: var(--blob-c); }
+
+.glass { background: var(--glass); backdrop-filter: blur(22px) saturate(1.4); -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); }
+.glass-strong { background: var(--glass-strong); }
+.lift { transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s; }
+.lift:hover { transform: translateY(-3px) scale(1.005); }
+.muted { color: var(--muted); }
+.btn { display: inline-flex; align-items: center; gap: .45rem; padding: .55rem .95rem; border-radius: 12px; font-weight: 600; font-size: .875rem; border: 1px solid var(--line); background: var(--glass-strong); color: var(--ink); cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.btn:hover { transform: translateY(-1px); } .btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; box-shadow: 0 8px 20px -8px var(--accent); }
+.btn-danger { color: var(--rose); }
+.input { width: 100%; padding: .6rem .8rem; border-radius: 12px; border: 1px solid var(--line); background: var(--glass-strong); color: var(--ink); font: inherit; font-size: .9rem; }
+.input::placeholder { color: var(--muted); opacity: .8; }
+:where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 65%, transparent); outline-offset: 2px; }
+.chip { display: inline-flex; align-items: center; padding: .15rem .6rem; border-radius: 999px; font-size: .75rem; font-weight: 600; border: 1px solid var(--line); background: var(--glass-strong); }
+.dock-link { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 15px; color: var(--muted); position: relative; transition: all .2s; }
+.dock-link:hover { background: var(--glass-strong); color: var(--ink); transform: scale(1.12); }
+.dock-link.active { background: var(--accent); color: var(--accent-ink); box-shadow: 0 10px 24px -8px var(--accent); }
+.dock-link span.tip { position: absolute; left: 58px; padding: .25rem .6rem; border-radius: 8px; background: var(--ink); color: var(--bg); font-size: .75rem; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .15s; }
+.dock-link:hover span.tip, .dock-link:focus-visible span.tip { opacity: 1; }
+@media (max-width: 767px) { .dock-link span.tip { display: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
+.rise { animation: rise .45s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+.skeleton { border-radius: 14px; background: linear-gradient(90deg, var(--line) 25%, transparent 50%, var(--line) 75%); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; }
+@media (prefers-reduced-motion: reduce) { *, ::before, ::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
